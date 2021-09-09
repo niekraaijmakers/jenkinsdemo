@@ -1,11 +1,11 @@
 pipeline {
-    agent {
-        docker {
-            image 'maven:3-alpine'
-            args '-v /root/.m2:/root/.m2'
-        }
-    }
+    agent any
     
+    tools {
+        maven "maven"
+        jdk "jdk11"
+    }
+        
     stages {
     
         stage ('Clone') {

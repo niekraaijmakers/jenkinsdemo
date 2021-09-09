@@ -3,7 +3,7 @@ pipeline {
     
     tools {
         maven "maven"
-        jdk "openjdk-11"
+        jdk "jdk11"
     }
         
     stages {

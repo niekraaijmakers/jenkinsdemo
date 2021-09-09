@@ -1,44 +1,34 @@
-def gv
-
 pipeline {
     agent any
-    parameters {
-        choice(name: 'VERSION', choices: ['1.1.0', '1.2.0', '1.3.0'], description: '')
-        booleanParam(name: 'executeTests', defaultValue: true, description: '')
+    tools {
+      maven 'Maven 3.3.9'
+      jdk 'jdk11' 
     }
     stages {
-        stage("init") {
+    
+        stage ('Clone') {
             steps {
-                script {
-                    gv = load "script.groovy"
-                }
+                git branch: 'master', url: "https://github.com/adobe/aem-guides-wknd.git"
             }
         }
-        stage("build") {
+            
+       stage ('Exec Maven') {
+          steps {
+              rtMavenRun (
+                  tool: MAVEN_TOOL, // Tool name from Jenkins configuration
+                  goals: 'clean install',
+                  deployerId: "MAVEN_DEPLOYER",
+                  resolverId: "MAVEN_RESOLVER"
+              )
+          }
+      }
+      stage("deploy") {
             steps {
                 script {
-                    gv.buildApp()
+                  def response = sh(script: 'curl https://localhost:4502', returnStdout: true)
+                  
                 }
             }
-        }
-        stage("test") {
-            when {
-                expression {
-                    params.executeTests
-                }
-            }
-            steps {
-                script {
-                    gv.testApp()
-                }
-            }
-        }
-        stage("deploy") {
-            steps {
-                script {
-                    gv.deployApp()
-                }
-            }
-        }
+      }
     }
 }

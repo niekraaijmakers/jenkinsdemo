@@ -2,7 +2,7 @@ pipeline {
     agent any
     
     tools {
-        maven 'MAVEN_PATH'
+        maven 'mvn'
         jdk 'jdk11'
     }
         

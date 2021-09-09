@@ -23,7 +23,7 @@ THE SOFTWARE.
 node('node') {
 
 
-    currentBuild.result = "SUCCESS"
+    currentBuild.result = "FAILURE"
 
     try {
 

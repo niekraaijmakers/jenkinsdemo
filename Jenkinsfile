@@ -42,3 +42,5 @@ pipeline {
         }
     }
 }
+
+return this;

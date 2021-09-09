@@ -2,12 +2,18 @@ pipeline {
     agent any
     
     tools {
-        maven "maven"
-        jdk "jdk11"
+        maven 'MAVEN_PATH'
+        jdk 'jdk11'
     }
         
     stages {
-    
+        stage("Tools initialization") {
+            steps {
+                sh "mvn --version"
+                sh "java -version"
+            }
+        }
+            
         stage ('Clone') {
             steps {
                 git branch: 'master', url: "https://github.com/adobe/aem-guides-wknd.git"
